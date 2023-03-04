@@ -1,10 +1,10 @@
-const test = require('tape')
+import test from 'tape'
 
 let P2PT
 if (process.env.BROWSER_TEST) {
-  P2PT = require('../p2pt')
+  P2PT = (await import('./../src/p2pt.js')).default
 } else {
-  P2PT = require('../node')
+  P2PT = (await import('./../src/node.js')).default
 }
 
 const announceURLs = [

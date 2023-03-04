@@ -1,19 +1,24 @@
-const test = require('tape')
+import test from 'tape'
 
 let P2PT
 if (process.env.BROWSER_TEST) {
-  P2PT = require('../p2pt')
+  P2PT = (await import('./../src/p2pt.js')).default
 } else {
-  P2PT = require('../node')
+  P2PT = (await import('./../src/node.js')).default
 }
 
 const announceURLs = [
-  'ws://localhost:5000'
-  // 'wss://tracker.btorrent.xyz:443/'
+  'ws://localhost:5002',
+  'ws://localhost:5001',
+  "wss://tracker.openwebtorrent.com",
+  "wss://tracker.btorrent.xyz"
 ]
 
 const announceURLs1 = [
-  'ws://localhost:5001'
+  'ws://localhost:5001',
+  'ws://localhost:5002',
+  "wss://tracker.openwebtorrent.com",
+  "wss://tracker.btorrent.xyz"
 ]
 
 test('character message', function (t) {
@@ -25,6 +30,7 @@ test('character message', function (t) {
   })
 
   p2pt2.on('msg', (peer, msg) => {
+    console.log({msg});
     t.equal(msg, 'hello')
 
     p2pt1.destroy()

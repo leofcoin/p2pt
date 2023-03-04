@@ -1,5 +1,5 @@
-const BrowserP2PT = require('./p2pt')
-const wrtc = require('wrtc')
+import BrowserP2PT from './p2pt.js'
+import wrtc from '@koush/wrtc'
 
 class P2PT extends BrowserP2PT {
   /**
@@ -14,4 +14,4 @@ class P2PT extends BrowserP2PT {
   }
 }
 
-module.exports = P2PT
+export { P2PT as default }

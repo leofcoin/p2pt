@@ -1,10 +1,10 @@
-const { spawn } = require('child_process')
+import { spawn } from 'child_process'
 
 const log = data => {
   console.log(`stdout: ${data}`)
 }
 
-const server1 = spawn('node', ['startTracker.js'])
+const server1 = spawn('env', ['PORT=5002', 'node', 'startTracker.js'])
 const server2 = spawn('env', ['PORT=5001', 'node', 'startTracker.js'])
 
 server1.stdout.on('data', log)
