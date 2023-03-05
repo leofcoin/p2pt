@@ -114,7 +114,7 @@ class P2PT extends EventEmitter {
                 this.responseWaiting[peer.id][data.id]([peer, msg])
                 delete this.responseWaiting[peer.id][data.id]
               } else {
-                this.emit('msg', peer, msg)
+                this.emit('msg', peer, msg, data.from)
               }
               this._destroyChunks(data.id)
             }
@@ -219,7 +219,8 @@ class P2PT extends EventEmitter {
     return new Promise((resolve, reject) => {
       const data = {
         id: msgID !== '' ? msgID : Math.floor(Math.random() * 100000 + 100000),
-        msg
+        msg,
+        from: this.peerId
       }
 
       if (typeof msg === 'object') {

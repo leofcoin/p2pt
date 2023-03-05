@@ -1,5 +1,5 @@
 {
-  "name": "p2pt",
+  "name": "@leofcoin/p2pt",
   "version": "1.5.1",
   "description": "P2P connections with WebTorrent trackers",
   "main": "src/node.js",
