@@ -10516,7 +10516,7 @@ let P2PT$1 = class P2PT extends require$$0$5 {
                 this.responseWaiting[peer.id][data.id]([peer, msg]);
                 delete this.responseWaiting[peer.id][data.id];
               } else {
-                this.emit('msg', peer, msg, data.from);
+                this.emit('msg', peer, msg, data.id, data.from);
               }
               this._destroyChunks(data.id);
             }
