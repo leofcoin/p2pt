@@ -10609,6 +10609,29 @@ let P2PT$1 = class P2PT extends require$$0$5 {
     }
   }
 
+  _trySend(peer, data) {
+    let shouldTry = data.msg.length > 0;
+    let chunks = 0;
+    let remaining = '';
+
+    while (shouldTry) {
+      data.c = chunks;
+
+      remaining = data.msg.slice(MAX_MESSAGE_LENGTH);
+      data.msg = data.msg.slice(0, MAX_MESSAGE_LENGTH);
+
+      if (!remaining) { data.last = true; }
+      if (peer.connected) {
+        peer.send(JSON_MESSAGE_IDENTIFIER + JSON.stringify(data));  
+        data.msg = remaining;
+        chunks++;
+        shouldTry = data.msg.length > 0;
+      } else {
+        shouldTry = false;
+        this._removePeer(peer);
+      }
+    }
+  }
   /**
    * Send a msg and get response for it
    * @param Peer peer simple-peer object to send msg to
@@ -10649,21 +10672,7 @@ let P2PT$1 = class P2PT extends require$$0$5 {
         return reject(Error('Connection to peer closed' + e))
       }
 
-      let chunks = 0;
-      let remaining = '';
-      while (data.msg.length > 0) {
-        data.c = chunks;
-
-        remaining = data.msg.slice(MAX_MESSAGE_LENGTH);
-        data.msg = data.msg.slice(0, MAX_MESSAGE_LENGTH);
-
-        if (!remaining) { data.last = true; }
-
-        peer.send(JSON_MESSAGE_IDENTIFIER + JSON.stringify(data));
-
-        data.msg = remaining;
-        chunks++;
-      }
+      this._trySend(peer, data);
 
       debug$2('sent a message to ' + peer.id);
     })
