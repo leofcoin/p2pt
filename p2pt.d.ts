@@ -1,5 +1,5 @@
+import type { EventEmitter } from "events";
 declare module "p2pt" {
-  import type { EventEmitter } from "events";
   export default class P2PT<SendableMessage = any> extends EventEmitter {
     _peerId: string;
     constructor(announceURLs?: Array<string>, identifierString?: string);
