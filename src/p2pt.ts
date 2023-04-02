@@ -243,7 +243,7 @@ class P2PT extends EventEmitter {
       const data = {
         id: msgID !== '' ? msgID : Math.floor(Math.random() * 100000 + 100000),
         msg,
-        from: this.peerId
+        from: this._peerId
       }
 
       if (typeof msg === 'object') {

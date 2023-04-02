@@ -8,6 +8,7 @@ class P2PT extends BrowserP2PT {
    * @param string identifierString Identifier used to discover peers in the network
    */
   constructor (announceURLs = [], identifierString = '') {
+
     super(announceURLs, identifierString)
 
     this._wrtc = wrtc

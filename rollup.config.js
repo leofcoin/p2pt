@@ -29,7 +29,8 @@ export default  [{
   plugins: [
     commonjs({exclude: ['./simple-peer.js']}),
     nodeResolve(),
-    typescript({ compilerOptions: { declaration: false }})
+    typescript({ compilerOptions: { declaration: false }}),
+    
   ]
 }, {
   input: ['src/p2pt.ts', 'src/node.ts'],
