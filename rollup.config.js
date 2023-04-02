@@ -5,17 +5,19 @@ import commonjs from '@rollup/plugin-commonjs';
 import rimraf from 'rimraf';
 import nodeResolve from '@rollup/plugin-node-resolve';
 // import tsconfig from './tsconfig.json' assert { type: 'json'};
-
+import {execSync} from 'child_process'
 try {
   rimraf.sync('./exports/**/*')
+  execSync('mkdir ./exports/browser')
 } catch (e) {
   console.log('nothing to clean');
 };
 
+
 export default  [{
-  input: ['src/p2pt.js', 'src/node.js'],
+  input: ['src/p2pt.ts', 'src/node.ts'],
   output: [{
-    dir: './exports',
+    dir: './exports/commonjs',
     format: 'cjs'
   }],
   external: [
@@ -26,7 +28,22 @@ export default  [{
   ],
   plugins: [
     commonjs({exclude: ['./simple-peer.js']}),
-    // typescript(tsconfig)
-    nodeResolve()
+    nodeResolve(),
+    typescript({ compilerOptions: { declaration: false }})
+  ]
+}, {
+  input: ['src/p2pt.ts', 'src/node.ts'],
+  output: [{
+    dir: './exports',
+    format: 'es'
+  }],
+  external: [
+    'bittorrent-tracker/lib/client/websocket-tracker',
+    'simple-websocket',
+    '@koush/wrtc',
+    'wrtc.node'
+  ],
+  plugins: [
+    typescript({ compilerOptions: { declarationDir: './exports' }})
   ]
 }]

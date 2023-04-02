@@ -2,14 +2,22 @@
   "name": "@leofcoin/p2pt",
   "version": "1.5.4",
   "description": "P2P connections with WebTorrent trackers",
-  "main": "src/node.js",
-  "browser": "./exports/p2pt.umd.js",
+  "main": "./exports/node.js",
+  "browser": "./exports/browser/p2pt.umd.js",
   "types": "p2pt.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./exports/node.js",
+      "require": "./exports/commonjs/node.js",
+      "browser": "./exports/browser/p2pt.umd.js",
+      "types": "./exports/p2pt.d.ts"
+    }
+  },
   "scripts": {
     "build": "rollup -c && npm run build:umd && npm run build:umd-tiny",
-    "build:umd": "browserify ./exports/p2pt.js -s P2PT > exports/p2pt.umd.js",
-    "build:umd-tiny": "browserify ./exports/p2pt.js -p tinyify -s P2PT > exports/p2pt.umd.min.js",
+    "build:umd": "browserify ./exports/commonjs/p2pt.js -s P2PT > exports/browser/p2pt.umd.js",
+    "build:umd-tiny": "browserify ./exports/commonjs/p2pt.js -p tinyify -s P2PT > exports/browser/p2pt.umd.min.js",
     "test-browser": "BROWSER_TEST=1 airtap --local test/*.js",
     "test-node": "node test/*.js",
     "test:all": "npm run test-node && npm run test-browser",
