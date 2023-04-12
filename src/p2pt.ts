@@ -75,7 +75,7 @@ class P2PT extends EventEmitter {
         if (!this.peers[peer.id]) {
           newpeer = true
           this.peers[peer.id] = {}
-          this.responseWaiting[peer.id] = {}
+          if (!this.responseWaiting[peer.id]) this.responseWaiting[peer.id] = {}
         }
         /**
          * Multiple data channels to one peer is possible
@@ -115,7 +115,7 @@ class P2PT extends EventEmitter {
               /**
                * If there's someone waiting for a response, call them
                */
-              if (this.responseWaiting[peer.id][data.id]) {
+              if (this.responseWaiting[peer.id] && this.responseWaiting[peer.id][data.id]) {
                 this.responseWaiting[peer.id][data.id]([peer, msg])
                 delete this.responseWaiting[peer.id][data.id]
               } else {
