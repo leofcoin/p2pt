@@ -64,14 +64,19 @@ class P2PT extends EventEmitter {
    */
   start () {
     this.on('peer', peer => {
-      let newpeer = false
-      if (!this.peers[peer.id]) {
-        newpeer = true
-        this.peers[peer.id] = {}
-        this.responseWaiting[peer.id] = {}
-      }
 
       peer.on('connect', () => {
+        let newpeer = false
+        /** 
+         * peer connected or reconnected
+         * Sometimes peers reconnect so need to handle the newpeer here
+         */ 
+        
+        if (!this.peers[peer.id]) {
+          newpeer = true
+          this.peers[peer.id] = {}
+          this.responseWaiting[peer.id] = {}
+        }
         /**
          * Multiple data channels to one peer is possible
          * The `peer` object actually refers to a peer with a data channel. Even though it may have same `id` (peerID) property, the data channel will be different. Different trackers giving the same "peer" will give the `peer` object with different channels.

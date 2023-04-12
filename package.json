@@ -12,6 +12,9 @@
       "require": "./exports/commonjs/node.js",
       "browser": "./exports/browser/p2pt.umd.js",
       "types": "./exports/p2pt.d.ts"
+    },
+    "./browser": {
+      "import": "./exports/browser/p2pt.umd.js"
     }
   },
   "scripts": {
