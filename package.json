@@ -1,6 +1,6 @@
 {
   "name": "@leofcoin/p2pt",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "description": "P2P connections with WebTorrent trackers",
   "main": "./exports/node.js",
   "browser": "./exports/browser/p2pt.umd.js",
