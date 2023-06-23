@@ -4,7 +4,6 @@
   "description": "P2P connections with WebTorrent trackers",
   "main": "./exports/node.js",
   "browser": "./exports/browser/p2pt.umd.js",
-  "types": "p2pt.d.ts",
   "type": "module",
   "exports": {
     ".": {
