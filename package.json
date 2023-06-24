@@ -17,10 +17,10 @@
   "scripts": {
     "build": "rollup -c && npm run build:umd",
     "build:umd": "browserify ./exports/commonjs/p2pt.js -s P2PT > exports/browser/p2pt.umd.js",
-    "test-browser": "BROWSER_TEST=1 airtap --local test/*.js",
+    "test-browser": "BROWSER_TEST=1 airtap test/*.js --source-type module",
     "test-node": "node test/*.js",
     "test:all": "npm run test-node && npm run test-browser",
-    "test": "start-server-and-test 'node start-trackers.js' 5001 test:all"
+    "test": "start-server-and-test 'node start-trackers.js' 5002 test:all"
   },
   "dependencies": {
     "@koush/wrtc": "^0.5.3",
@@ -36,7 +36,8 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.1.1",
     "@types/node": "^18.15.11",
-    "airtap": "^3.0.0",
+    "airtap": "^4.0.4",
+    "airtap-system": "^0.1.0",
     "browserify": "^16.5.1",
     "koa": "^2.14.1",
     "koa-static": "^5.0.0",
@@ -45,7 +46,8 @@
     "start-server-and-test": "^1.11.2",
     "tape": "^5.0.1",
     "tslib": "^2.5.3",
-    "webpack-cli": "^5.1.4"
+    "webpack-cli": "^5.1.4",
+    "wireit": "^0.9.5"
   },
   "repository": {
     "type": "git",

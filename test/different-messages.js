@@ -1,4 +1,5 @@
-import test from 'tape'
+const importee = await import('tape')
+const test = importee.default
 
 let P2PT
 if (process.env.BROWSER_TEST) {
@@ -8,7 +9,7 @@ if (process.env.BROWSER_TEST) {
 }
 
 const announceURLs = [
-  'ws://localhost:5000'
+  'ws://localhost:5001'
   // 'wss://tracker.btorrent.xyz:443/'
 ]
 
