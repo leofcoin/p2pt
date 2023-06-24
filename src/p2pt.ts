@@ -10,6 +10,7 @@ import EventEmitter from 'events'
 import sha1 from 'simple-sha1'
 import debug from 'debug'
 import { arr2hex, hex2arr, hex2bin, randomBytes } from 'uint8-util'
+import { SimplePeer } from 'simple-peer'
 
 debug('p2pt')
 
@@ -33,13 +34,14 @@ const MAX_MESSAGE_LENGTH = 16000
 class P2PT extends EventEmitter {
   announceURLs: string[]
   trackers: { [index: string]: WebSocketTracker }
-  peers: {}
+  peers: { [index: string]: { [index: string]: SimplePeer } }
   msgChunks: {}
   responseWaiting: {}
 
   _peerIdBuffer: Buffer | Uint8Array
   _peerId: string
   _peerIdBinary: string
+  peerId: Uint8Array
 
   identifierString: string
   infoHash: string
@@ -51,7 +53,7 @@ class P2PT extends EventEmitter {
    * @param array announceURLs List of announce tracker URLs
    * @param string identifierString Identifier used to discover peers in the network
    */
-  constructor (announceURLs = [], identifierString = '') {
+  constructor (announceURLs = [], identifierString = '', peerId?: Uint8Array) {
     super()
 
     this.announceURLs = announceURLs
@@ -59,11 +61,12 @@ class P2PT extends EventEmitter {
     this.peers = {}
     this.msgChunks = {}
     this.responseWaiting = {}
+    this.peerId = peerId
 
     if (identifierString) { this.setIdentifier(identifierString) }
-
-    this._peerIdBuffer = randomBytes(20)
+ 
     
+    this._peerIdBuffer = this.peerId ? peerId.slice(-20) : randomBytes(20)
     this._peerId = arr2hex(this._peerIdBuffer)
     this._peerIdBinary = hex2bin(this._peerId)
 

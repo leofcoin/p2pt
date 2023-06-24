@@ -1,4 +1,5 @@
 import test from 'tape'
+import utils from '@vandeurenglenn/typed-array-utils'
 
 let P2PT
 if (process.env.BROWSER_TEST) {
@@ -16,8 +17,8 @@ const announceURLs1 = [
 ]
 
 test('character message', function (t) {
-  var p2pt1 = new P2PT(announceURLs, 'p2pt')
-  var p2pt2 = new P2PT(announceURLs, 'p2pt')
+  var p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDx'))
+  var p2pt2 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDc'))
 
   p2pt1.on('peerconnect', (peer) => {
     p2pt1.send(peer, 'hello')
@@ -36,8 +37,8 @@ test('character message', function (t) {
 })
 
 test('chained messages', function (t) {
-  var p2pt1 = new P2PT(announceURLs, 'p2pt')
-  var p2pt2 = new P2PT(announceURLs, 'p2pt')
+  var p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDb'))
+  var p2pt2 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDa'))
 
   p2pt1.on('peerconnect', (peer) => {
     p2pt1
@@ -81,7 +82,7 @@ test('chained messages', function (t) {
 })
 
 test('tracker connections', function (t) {
-  var p2pt1 = new P2PT(announceURLs, 'p2pt')
+  var p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDt'))
   var p2pt2 = new P2PT(['ws://127.0.0.1:404'], 'p2pt')
 
   p2pt1.on('trackerconnect', (tracker, status) => {
@@ -109,8 +110,8 @@ test('tracker connections', function (t) {
 })
 
 test('tracker addition', function (t) {
-  const p2pt1 = new P2PT(announceURLs, 'p2pt')
-  const p2pt2 = new P2PT(announceURLs1, 'p2pt')
+  const p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDg'))
+  const p2pt2 = new P2PT(announceURLs1, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFD1'))
 
   p2pt1.on('peerconnect', (peer) => {
     t.pass('Connect event emitted')
@@ -130,8 +131,8 @@ test('tracker addition', function (t) {
 })
 
 // test('tracker removal', function (t) {
-//   const p2pt1 = new P2PT(announceURLs, 'p2pt')
-//   const p2pt2 = new P2PT(announceURLs, 'p2pt')
+//   const p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDx'))
+//   const p2pt2 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDx'))
 
 //   p2pt1.on('msg', (peer, msg) => {
 //     if (msg === 'hello') {
@@ -159,8 +160,8 @@ test('tracker addition', function (t) {
 
 // test('peer connections', function (t) {
 
-//   var p2pt1 = new P2PT(announceURLs, 'p2pt')
-//   var p2pt2 = new P2PT(announceURLs, 'p2pt')
+//   var p2pt1 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDx'))
+//   var p2pt2 = new P2PT(announceURLs, 'p2pt', utils.fromBase58('YTqx4M6m1tEfJCD9Xah3i1igJuR6eZCZdHoZ7wvKyAns1e2NqSFDx'))
 
 //   p2pt1.on('peerconnect', (peer) => {
 //     t.pass('Connect event emitted')

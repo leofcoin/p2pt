@@ -8,9 +8,9 @@ class P2PT extends BrowserP2PT {
    * @param array announceURLs List of announce tracker URLs
    * @param string identifierString Identifier used to discover peers in the network
    */
-  constructor (announceURLs = [], identifierString = '') {
+  constructor (announceURLs = [], identifierString = '', peerId?: Uint8Array) {
 
-    super(announceURLs, identifierString)
+    super(announceURLs, identifierString, peerId)
 
     this._wrtc = wrtc
   }

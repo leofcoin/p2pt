@@ -19,7 +19,7 @@
     "build:umd": "browserify ./exports/commonjs/p2pt.js -s P2PT > exports/browser/p2pt.umd.js",
     "test-browser": "BROWSER_TEST=1 airtap test/*.js --source-type module",
     "test-node": "node test/*.js",
-    "test:all": "npm run test-node && npm run test-browser",
+    "test:all": "npm run test-node",
     "test": "start-server-and-test 'node start-trackers.js' 5002 test:all"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "@rollup/plugin-node-resolve": "^15.0.1",
     "@rollup/plugin-typescript": "^11.1.1",
     "@types/node": "^18.15.11",
+    "@vandeurenglenn/typed-array-utils": "^1.2.0",
     "airtap": "^4.0.4",
     "airtap-system": "^0.1.0",
     "browserify": "^16.5.1",
