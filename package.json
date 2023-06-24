@@ -2,8 +2,6 @@
   "name": "@leofcoin/p2pt",
   "version": "1.5.8",
   "description": "P2P connections with WebTorrent trackers",
-  "main": "./exports/node.js",
-  "browser": "./exports/browser/p2pt.umd.js",
   "type": "module",
   "exports": {
     ".": {
@@ -17,9 +15,8 @@
     }
   },
   "scripts": {
-    "build": "rollup -c && npm run build:umd && npm run build:umd-tiny",
+    "build": "rollup -c && npm run build:umd",
     "build:umd": "browserify ./exports/commonjs/p2pt.js -s P2PT > exports/browser/p2pt.umd.js",
-    "build:umd-tiny": "browserify ./exports/commonjs/p2pt.js -p tinyify -s P2PT > exports/browser/p2pt.umd.min.js",
     "test-browser": "BROWSER_TEST=1 airtap --local test/*.js",
     "test-node": "node test/*.js",
     "test:all": "npm run test-node && npm run test-browser",
@@ -28,8 +25,8 @@
   "dependencies": {
     "@koush/wrtc": "^0.5.3",
     "bittorrent-tracker": "^9.14.5",
-    "randombytes": "^2.1.0",
-    "simple-sha1": "^3.0.1"
+    "simple-sha1": "^3.1.0",
+    "uint8-util": "^2.1.9"
   },
   "optionalDependencies": {
     "wrtc": "^0.4.7"
@@ -37,7 +34,7 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@rollup/plugin-typescript": "^11.0.0",
+    "@rollup/plugin-typescript": "^11.1.1",
     "@types/node": "^18.15.11",
     "airtap": "^3.0.0",
     "browserify": "^16.5.1",
@@ -47,8 +44,8 @@
     "standard": "^14.3.4",
     "start-server-and-test": "^1.11.2",
     "tape": "^5.0.1",
-    "tinyify": "^3.0.0",
-    "tslib": "^2.5.0"
+    "tslib": "^2.5.3",
+    "webpack-cli": "^5.1.4"
   },
   "repository": {
     "type": "git",

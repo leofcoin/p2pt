@@ -2,22 +2,17 @@ import test from 'tape'
 
 let P2PT
 if (process.env.BROWSER_TEST) {
-  P2PT = (await import('./../src/p2pt.js')).default
+  P2PT = (await import('./../exports/browser/p2pt.umd.js')).default
 } else {
-  P2PT = (await import('./../src/node.js')).default
+  P2PT = (await import('./../exports/node.js')).default
 }
 
 const announceURLs = [
-  'ws://localhost:5002',
-  'ws://localhost:5001',
-  "wss://tracker.openwebtorrent.com",
-  "wss://tracker.btorrent.xyz"
+  'ws://127.0.0.1:5002'
 ]
 
 const announceURLs1 = [
-  'ws://localhost:5001',
-  'ws://localhost:5002',
-  "wss://tracker.openwebtorrent.com",
+  'ws://127.0.0.1:5001',
   "wss://tracker.btorrent.xyz"
 ]
 
@@ -121,6 +116,7 @@ test('tracker addition', function (t) {
 
   p2pt1.on('peerconnect', (peer) => {
     t.pass('Connect event emitted')
+   
 
     p2pt1.destroy()
     p2pt2.destroy()
@@ -132,6 +128,7 @@ test('tracker addition', function (t) {
 
   // let 1st p2pt1 know of tracker p2pt2 is using
   p2pt1.addTracker(announceURLs1[0])
+
 })
 
 test('tracker removal', function (t) {
@@ -149,7 +146,9 @@ test('tracker removal', function (t) {
   })
 
   p2pt2.on('peerconnect', peer => {
+    p2pt2.addTracker(announceURLs1[0])
     p2pt2.removeTracker(announceURLs[0])
+
 
     setTimeout(() => {
       p2pt2.send(peer, 'hello')

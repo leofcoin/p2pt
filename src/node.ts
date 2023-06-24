@@ -2,6 +2,7 @@ import BrowserP2PT from './p2pt.js'
 import wrtc from '@koush/wrtc'
 
 class P2PT extends BrowserP2PT {
+  _wrtc: wrtc
   /**
    *
    * @param array announceURLs List of announce tracker URLs

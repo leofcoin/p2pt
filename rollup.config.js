@@ -21,14 +21,17 @@ export default  [{
     format: 'cjs'
   }],
   external: [
-    'bittorrent-tracker/lib/client/websocket-tracker',
+    'debug',
+    'simple-sha1',
+    'bittorrent-tracker/lib/client/websocket-tracker.js',
     'simple-websocket',
     '@koush/wrtc',
     'wrtc.node'
   ],
   plugins: [
-    commonjs({exclude: ['./simple-peer.js']}),
-    nodeResolve(),
+    
+    // commonjs({exclude: ['./simple-peer.js']}),
+    nodeResolve({ preferBuiltins: true }),
     typescript({ compilerOptions: { declaration: false }}),
     
   ]

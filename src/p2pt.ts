@@ -5,13 +5,19 @@
  */
 
 import WebSocketTracker from 'bittorrent-tracker/lib/client/websocket-tracker.js'
-import randombytes from 'randombytes'
+// import * as randombytes from 'randombytes'
 import EventEmitter from 'events'
 import sha1 from 'simple-sha1'
 import debug from 'debug'
+import { arr2hex, hex2arr, hex2bin, randomBytes } from 'uint8-util'
 
 debug('p2pt')
 
+export declare type AnnounceOptions = {
+  numwant?: number
+  uploaded?: number
+  downloaded?: number
+}
 /**
  * This character would be prepended to easily identify JSON msgs
  */
@@ -25,6 +31,21 @@ const JSON_MESSAGE_IDENTIFIER = '^'
 const MAX_MESSAGE_LENGTH = 16000
 
 class P2PT extends EventEmitter {
+  announceURLs: string[]
+  trackers: { [index: string]: WebSocketTracker }
+  peers: {}
+  msgChunks: {}
+  responseWaiting: {}
+
+  _peerIdBuffer: Buffer | Uint8Array
+  _peerId: string
+  _peerIdBinary: string
+
+  identifierString: string
+  infoHash: string
+  _infoHashBuffer: Buffer | Uint8Array
+  _infoHashBinary: string
+
   /**
    *
    * @param array announceURLs List of announce tracker URLs
@@ -41,9 +62,10 @@ class P2PT extends EventEmitter {
 
     if (identifierString) { this.setIdentifier(identifierString) }
 
-    this._peerIdBuffer = randombytes(20)
-    this._peerId = this._peerIdBuffer.toString('hex')
-    this._peerIdBinary = this._peerIdBuffer.toString('binary')
+    this._peerIdBuffer = randomBytes(20)
+    
+    this._peerId = arr2hex(this._peerIdBuffer)
+    this._peerIdBinary = hex2bin(this._peerId)
 
     debug('my peer id: ' + this._peerId)
   }
@@ -55,8 +77,8 @@ class P2PT extends EventEmitter {
   setIdentifier (identifierString) {
     this.identifierString = identifierString
     this.infoHash = sha1.sync(identifierString).toLowerCase()
-    this._infoHashBuffer = Buffer.from(this.infoHash, 'hex')
-    this._infoHashBinary = this._infoHashBuffer.toString('binary')
+    this._infoHashBuffer = hex2arr(this.infoHash)
+    this._infoHashBinary = hex2bin(this.infoHash)
   }
 
   /**
@@ -168,9 +190,8 @@ class P2PT extends EventEmitter {
    * @param string announceURL Tracker Announce URL
    */
   addTracker (announceURL) {
-    if (this.announceURLs.indexOf(announceURL) !== -1) {
-      throw new Error('Tracker already added')
-    }
+    if (this.announceURLs.includes(announceURL))
+      throw new Error('Tracker already added');
 
     const key = this.announceURLs.push(announceURL)
 
@@ -245,7 +266,12 @@ class P2PT extends EventEmitter {
    */
   send (peer, msg, msgID = '') {
     return new Promise((resolve, reject) => {
-      const data = {
+      const data: {
+        id: number | string
+        msg: any
+        from: string
+        o?: undefined | 0 | 1
+      } = {
         id: msgID !== '' ? msgID : Math.floor(Math.random() * 100000 + 100000),
         msg,
         from: this._peerId
@@ -369,13 +395,12 @@ class P2PT extends EventEmitter {
    * Default announce options
    * @param object opts Options
    */
-  _defaultAnnounceOpts (opts = {}) {
-    if (opts.numwant == null) opts.numwant = 50
+  _defaultAnnounceOpts (options: AnnounceOptions = {}) {
+    if (options.numwant === undefined) options.numwant = 50
+    if (options.uploaded === undefined) options.uploaded = 0
+    if (options.downloaded === undefined) options.downloaded = 0
 
-    if (opts.uploaded == null) opts.uploaded = 0
-    if (opts.downloaded == null) opts.downloaded = 0
-
-    return opts
+    return options
   }
 
   /**

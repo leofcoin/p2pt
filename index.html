@@ -28,8 +28,13 @@ const announceURLs1 = [
     p2pt1.send(peer, 'hello')
   })
 
+  p2pt1.on('msg', (peer, msg) => {
+    console.log({msg});
+  })
+
   p2pt2.on('msg', (peer, msg) => {
     console.log({msg});
+    p2pt2.send(peer, 'hi there')
 
   })
 
