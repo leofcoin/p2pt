@@ -44,7 +44,6 @@ class P2PT extends EventEmitter {
   _peerIdBuffer: Buffer | Uint8Array
   _peerId: string
   _peerIdBinary: string
-  peerId: Uint8Array
 
   identifierString: string
   infoHash: string
@@ -64,12 +63,10 @@ class P2PT extends EventEmitter {
     this.peers = {}
     this.msgChunks = {}
     this.responseWaiting = {}
-    this.peerId = peerId
 
     if (identifierString) { this.setIdentifier(identifierString) }
  
-    
-    this._peerIdBuffer = this.peerId ? peerId.slice(-20) : randomBytes(20)
+    this._peerIdBuffer = peerId ? peerId.slice(-20) : randomBytes(20)
     this._peerId = arr2hex(this._peerIdBuffer)
     this._peerIdBinary = hex2bin(this._peerId)
 
