@@ -19,6 +19,9 @@ export declare type AnnounceOptions = {
   uploaded?: number
   downloaded?: number
 }
+
+export declare type ResponseWaitingResponse =
+  ([peer, msg]: [peer: SimplePeer, msg: any]) => Promise<[SimplePeer, any]>
 /**
  * This character would be prepended to easily identify JSON msgs
  */
@@ -36,7 +39,7 @@ class P2PT extends EventEmitter {
   trackers: { [index: string]: WebSocketTracker }
   peers: { [index: string]: { [index: string]: SimplePeer } }
   msgChunks: {}
-  responseWaiting: {}
+  responseWaiting: { [index: string]: { [index: string]: ResponseWaitingResponse}}
 
   _peerIdBuffer: Buffer | Uint8Array
   _peerId: string
@@ -301,7 +304,7 @@ class P2PT extends EventEmitter {
         if (!this.responseWaiting[peer.id]) {
           this.responseWaiting[peer.id] = {}
         }
-        this.responseWaiting[peer.id][data.id] = resolve
+        this.responseWaiting[peer.id][data.id] = resolve as ResponseWaitingResponse
       } catch (e) {
         return reject(Error('Connection to peer closed' + e))
       }
