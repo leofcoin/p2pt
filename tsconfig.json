@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "module": "NodeNext",
     "target": "ESNext",
     "moduleResolution": "nodenext",
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
     "declaration": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"]
 }
