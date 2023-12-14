@@ -235,8 +235,10 @@ class P2PT extends EventEmitter {
       return false
     }
 
-    this.peers[peer.id][peer.channelName].destroy()
-    delete this.peers[peer.id][peer.channelName]
+    if (this.peers[peer.id][peer.channelName]) {
+      this.peers[peer.id][peer.channelName].destroy()
+      delete this.peers[peer.id][peer.channelName]
+    }
 
     // All data channels are gone. Peer lost
     if (Object.keys(this.peers[peer.id]).length === 0) {
