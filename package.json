@@ -1,6 +1,6 @@
 {
   "name": "@leofcoin/p2pt",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "P2P connections with WebTorrent trackers",
   "type": "module",
   "exports": {
