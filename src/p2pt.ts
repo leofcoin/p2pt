@@ -415,7 +415,7 @@ class P2PT extends EventEmitter {
    * @param object opts Options
    */
   _defaultAnnounceOpts(options: AnnounceOptions = {}) {
-    if (options.numwant === undefined) options.numwant = 50
+    if (options.numwant === undefined) options.numwant = 5
     if (options.uploaded === undefined) options.uploaded = 0
     if (options.downloaded === undefined) options.downloaded = 0
 
